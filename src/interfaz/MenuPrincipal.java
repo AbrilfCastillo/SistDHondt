@@ -101,7 +101,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         lblTituloMenu.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblTituloMenu.setForeground(new java.awt.Color(228, 232, 242));
         lblTituloMenu.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTituloMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/how_to_vote_24dp_EBEDF5_FILL0_wght400_GRAD0_opsz24.png"))); // NOI18N
+        lblTituloMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo.png"))); // NOI18N
         lblTituloMenu.setText("<html>Sistema<br>D'Hondt</html>");
         lblTituloMenu.setIconTextGap(10);
         pnlTop.add(lblTituloMenu);
@@ -115,7 +115,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pnlMenu.add(pnlTop, java.awt.BorderLayout.NORTH);
 
-        pnlBotones.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 0, 10));
         pnlBotones.setOpaque(false);
         pnlBotones.setLayout(new javax.swing.BoxLayout(pnlBotones, javax.swing.BoxLayout.Y_AXIS));
 
@@ -290,7 +289,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
         pnlEspacioTituloLayout.setVerticalGroup(
             pnlEspacioTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 17, Short.MAX_VALUE)
+            .addGap(0, 1, Short.MAX_VALUE)
         );
 
         pnlTopContenido.add(pnlEspacioTitulo);

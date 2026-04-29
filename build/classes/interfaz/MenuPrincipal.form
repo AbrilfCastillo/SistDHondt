@@ -92,7 +92,7 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/recursos/how_to_vote_24dp_EBEDF5_FILL0_wght400_GRAD0_opsz24.png"/>
+                  <Image iconType="3" name="/recursos/logo.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&lt;html&gt;Sistema&lt;br&gt;D&apos;Hondt&lt;/html&gt;"/>
                 <Property name="iconTextGap" type="int" value="10"/>
@@ -119,11 +119,6 @@
         </Container>
         <Container class="javax.swing.JPanel" name="pnlBotones">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="0" left="10" right="10" top="10"/>
-              </Border>
-            </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <Constraints>
@@ -567,7 +562,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
