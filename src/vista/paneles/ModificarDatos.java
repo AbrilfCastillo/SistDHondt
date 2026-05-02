@@ -32,54 +32,78 @@ public class ModificarDatos extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnCargar = new javax.swing.JButton();
         lblModifique = new javax.swing.JLabel();
-        lblNombrePartido = new javax.swing.JLabel();
-        txtNombrePartido = new javax.swing.JTextField();
-        lblCantVotos = new javax.swing.JLabel();
-        txtCantVotos = new javax.swing.JTextField();
         sepTituloForm = new javax.swing.JSeparator();
+        txtCantVotos = new javax.swing.JFormattedTextField();
+        lblNombrePartido = new javax.swing.JLabel();
+        btnCargar = new javax.swing.JButton();
+        lblCantVotos = new javax.swing.JLabel();
+        txtNombrePartido = new javax.swing.JTextField();
         cmbPartidos = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
-
-        btnCargar.setText("Cargar");
 
         lblModifique.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblModifique.setText("Modifique los datos del partido seleccionado");
         lblModifique.setInheritsPopupMenu(false);
 
-        lblNombrePartido.setText("Nombre de partido");
-        lblNombrePartido.setInheritsPopupMenu(false);
+        txtCantVotos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        txtCantVotos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtCantVotos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantVotosActionPerformed(evt);
+            }
+        });
+        txtCantVotos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantVotosKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantVotosKeyTyped(evt);
+            }
+        });
 
-        txtNombrePartido.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblNombrePartido.setText("Nombre del partido");
+
+        btnCargar.setText("Cargar");
 
         lblCantVotos.setText("Cantidad de votos");
-        lblCantVotos.setInheritsPopupMenu(false);
 
-        txtCantVotos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtNombrePartido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombrePartidoKeyPressed(evt);
+            }
+        });
+
+        cmbPartidos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCantVotos)
-                            .addComponent(btnCargar)
-                            .addComponent(lblModifique)
-                            .addComponent(sepTituloForm, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNombrePartido)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtCantVotos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                                .addComponent(txtNombrePartido, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(cmbPartidos, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblModifique)
+                    .addComponent(sepTituloForm, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmbPartidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(151, 151, 151)
+                .addComponent(btnCargar)
+                .addGap(407, 407, 407))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(325, 325, 325)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblNombrePartido)
+                        .addComponent(lblCantVotos))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtNombrePartido, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                        .addComponent(txtCantVotos))
+                    .addGap(318, 318, 318)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,21 +112,40 @@ public class ModificarDatos extends javax.swing.JPanel {
                 .addComponent(lblModifique)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sepTituloForm, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblNombrePartido)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNombrePartido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(lblCantVotos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCantVotos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCargar)
-                .addGap(71, 71, 71)
-                .addComponent(cmbPartidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCargar)
+                    .addComponent(cmbPartidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(205, 205, 205))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(164, 164, 164)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblNombrePartido)
+                        .addComponent(txtNombrePartido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(30, 30, 30)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblCantVotos)
+                        .addComponent(txtCantVotos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(266, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtNombrePartidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombrePartidoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombrePartidoKeyPressed
+
+    private void txtCantVotosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantVotosKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantVotosKeyTyped
+
+    private void txtCantVotosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantVotosKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantVotosKeyPressed
+
+    private void txtCantVotosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantVotosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantVotosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -112,7 +155,7 @@ public class ModificarDatos extends javax.swing.JPanel {
     private javax.swing.JLabel lblModifique;
     private javax.swing.JLabel lblNombrePartido;
     private javax.swing.JSeparator sepTituloForm;
-    private javax.swing.JTextField txtCantVotos;
+    private javax.swing.JFormattedTextField txtCantVotos;
     private javax.swing.JTextField txtNombrePartido;
     // End of variables declaration//GEN-END:variables
 }

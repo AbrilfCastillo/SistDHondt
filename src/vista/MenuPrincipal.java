@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vista;
+import controladores.ControladorInformeCargos;
 import vista.paneles.InformeDivision;
 import vista.paneles.InformePartidos;
 import vista.paneles.Inicio;
@@ -21,22 +17,21 @@ import javax.swing.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuPrincipal
-     */
     public MenuPrincipal() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); //Pantalla completa
+        setMinimumSize(new Dimension(900, 650));
         cerrarPrograma();
-        
-        
-        //Panel de inicio
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlInicio");
-        lblTituloForm.setText("Inicio");
-        
-        
-        //Agrego los paneles a pnlFormularios
-        
+        configurarBotonesMenu();
+        configurarNavegacion();
+
+        //Menu lateral
+        pnlMenu.setPreferredSize(new Dimension(250, 0));
+        pnlMenu.setMinimumSize(new Dimension(250, 0));
+        pnlMenu.setMaximumSize(new Dimension(250, Integer.MAX_VALUE));
+        btnReset.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+
+        // Paneles
         Inicio o1 = new Inicio();
         CargarPartido o2 = new CargarPartido();
         ModificarDatos o3 = new ModificarDatos();
@@ -44,10 +39,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         InformeCargos o5 = new InformeCargos();
         InformeDivision o6 = new InformeDivision();
         InformePartidos o7 = new InformePartidos();
-        
+
         ControladorPartido ctrlPartido = new ControladorPartido(o2, o3, o4);
         ctrlPartido.refrescarCombos();
-        
+
         pnlFormularios.add(o1, "pnlInicio");
         pnlFormularios.add(o2, "pnlCargarPartido");
         pnlFormularios.add(o3, "pnlModificarDatos");
@@ -56,50 +51,146 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pnlFormularios.add(o6, "pnlInformeDivision");
         pnlFormularios.add(o7, "pnlInformePartidos");
 
+        // Panel inicial
+        mostrarPanel("pnlInicio", "Inicio", null);
+
+    
+}
+    private void configurarBotonesMenu() {
+
+        btnCargarPartido.setText("Cargar");
+        btnCargarPartido.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/cargarPartidoNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/cargarPartidoHover.png")),
+            null
+        );
+
+        btnModificarPartido.setText("Modificar");
+        btnModificarPartido.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/modificarPartidoNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/modificarPartidoHover.png")),
+            null
+        );
+
+        btnBajaPartido.setText("Dar de baja");
+        btnBajaPartido.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/bajaPartidoNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/bajaPartidoHover.png")),
+            null
+        );
+
+        btnInfCargos.setText("Repartición de cargos");
+        btnInfCargos.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/cargosNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/cargosHover.png")),
+            null
+        );
+
+        btnInfDivision.setText("División de votos");
+        btnInfDivision.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/divisionNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/divisionHover.png")),
+            null
+        );
+
+        btnInfPartidos.setText("Partidos políticos");
+        btnInfPartidos.setIconos(
+            new ImageIcon(getClass().getResource("/recursos/partidosNotHover.png")),
+            new ImageIcon(getClass().getResource("/recursos/partidosHover.png")),
+            null
+        );
+}
+
+    private void configurarNavegacion() {
+
+        btnCargarPartido.addActionListener(e ->
+            mostrarPanel("pnlCargarPartido", "Cargar Partido", btnCargarPartido));
+
+        btnModificarPartido.addActionListener(e ->
+            mostrarPanel("pnlModificarDatos", "Modificar Datos", btnModificarPartido));
+
+        btnBajaPartido.addActionListener(e ->
+            mostrarPanel("pnlBajaPartido", "Baja de Partido", btnBajaPartido));
+
+        btnInfCargos.addActionListener(e ->
+            mostrarPanel("pnlInformeCargos", "Informe de Cargos", btnInfCargos));
+
+        btnInfDivision.addActionListener(e ->
+            mostrarPanel("pnlInformeDivision", "Informe División", btnInfDivision));
+
+        btnInfPartidos.addActionListener(e ->
+            mostrarPanel("pnlInformePartidos", "Informe Partidos", btnInfPartidos));
+        }   
+    
+    private void mostrarPanel(String nombre, String titulo, BotonMenu botonActivo) {
+
+        // cambiar panel
+        CardLayout card = (CardLayout) pnlFormularios.getLayout();
+        card.show(pnlFormularios, nombre);
+
+        // cambiar título
+        lblTituloForm.setText(titulo);
+
+        // desactivar todos
+        desactivarBotones();
+
+        // activar el seleccionado (solo si existe)
+        if (botonActivo != null) {
+            botonActivo.setActive(true);
+        }
     }
     
-    @SuppressWarnings("unchecked")
+    private void desactivarBotones() {
+        btnCargarPartido.setActive(false);
+        btnModificarPartido.setActive(false);
+        btnBajaPartido.setActive(false);
+        btnInfCargos.setActive(false);
+        btnInfDivision.setActive(false);
+        btnInfPartidos.setActive(false);
+    }
     
     //Cerrar el programa al tocar Esc
     private void cerrarPrograma() {
-    getRootPane().registerKeyboardAction(e -> {
-        dispose();
-    }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-       JComponent.WHEN_IN_FOCUSED_WINDOW);
-}
+        getRootPane().registerKeyboardAction(e -> {
+            dispose();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+           JComponent.WHEN_IN_FOCUSED_WINDOW);    
+        }
+
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         pnlMenu = new Degradado();
         pnlTop = new javax.swing.JPanel();
         lblTituloMenu = new javax.swing.JLabel();
+        EspTituloMenu = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5), new java.awt.Dimension(0, 5));
         sepMenu = new javax.swing.JSeparator();
         pnlBotones = new javax.swing.JPanel();
         lblPartidos = new javax.swing.JLabel();
-        btnCargarPartido = new BotonMenu("Cargar");
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
-        btnModificarPartido = new BotonMenu("Modificar");
+        btnCargarPartido = new vista.componentes.BotonMenu();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
-        btnBajaPartido = new BotonMenu("Dar de Baja");
+        btnModificarPartido = new vista.componentes.BotonMenu();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
+        btnBajaPartido = new vista.componentes.BotonMenu();
         lblInformes = new javax.swing.JLabel();
-        btnInfCargos = new BotonMenu("Cargos");
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
-        btnInfDivision = new BotonMenu("Division de votos");
+        btnInfCargos = new vista.componentes.BotonMenu();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
-        btnInfPartidos = new BotonMenu("Partidos");
+        btnInfDivision = new vista.componentes.BotonMenu();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 15));
+        btnInfPartidos = new vista.componentes.BotonMenu();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15));
         btnReset = new javax.swing.JButton();
         pnlContenido = new javax.swing.JPanel();
         pnlTopContenido = new javax.swing.JPanel();
         lblTituloForm = new javax.swing.JLabel();
-        pnlEspacioTitulo = new javax.swing.JPanel();
+        EspTituloCont = new javax.swing.Box.Filler(new java.awt.Dimension(0, 18), new java.awt.Dimension(0, 18), new java.awt.Dimension(0, 18));
         sepTitulo = new javax.swing.JSeparator();
         pnlFormularios = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(1200, 700));
-        setResizable(false);
         setSize(new java.awt.Dimension(1200, 700));
 
         pnlMenu.setMaximumSize(new java.awt.Dimension(220, 0));
@@ -108,9 +199,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pnlMenu.setPreferredSize(new java.awt.Dimension(220, 0));
         pnlMenu.setLayout(new java.awt.BorderLayout());
 
-        pnlTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 0, 10));
+        pnlTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(30, 20, 20, 20));
+        pnlTop.setMinimumSize(new java.awt.Dimension(179, 0));
         pnlTop.setOpaque(false);
-        pnlTop.setPreferredSize(new java.awt.Dimension(0, 80));
+        pnlTop.setPreferredSize(new java.awt.Dimension(0, 115));
         pnlTop.setLayout(new javax.swing.BoxLayout(pnlTop, javax.swing.BoxLayout.Y_AXIS));
 
         lblTituloMenu.setBackground(new java.awt.Color(255, 255, 255));
@@ -120,7 +212,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         lblTituloMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo.png"))); // NOI18N
         lblTituloMenu.setText("<html>Sistema<br>D'Hondt</html>");
         lblTituloMenu.setIconTextGap(10);
+        lblTituloMenu.setInheritsPopupMenu(false);
         pnlTop.add(lblTituloMenu);
+        pnlTop.add(EspTituloMenu);
 
         sepMenu.setBackground(new java.awt.Color(154, 171, 198));
         sepMenu.setForeground(new java.awt.Color(136, 158, 191));
@@ -131,6 +225,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pnlMenu.add(pnlTop, java.awt.BorderLayout.NORTH);
 
+        pnlBotones.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 30, 20));
         pnlBotones.setOpaque(false);
         pnlBotones.setLayout(new javax.swing.BoxLayout(pnlBotones, javax.swing.BoxLayout.Y_AXIS));
 
@@ -138,139 +233,55 @@ public class MenuPrincipal extends javax.swing.JFrame {
         lblPartidos.setForeground(new java.awt.Color(255, 255, 255));
         lblPartidos.setText("Partidos");
         lblPartidos.setToolTipText("");
-        lblPartidos.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        lblPartidos.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 15, 0));
         lblPartidos.setInheritsPopupMenu(false);
         pnlBotones.add(lblPartidos);
 
-        btnCargarPartido.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnCargarPartido.setForeground(new java.awt.Color(255, 255, 255));
-        btnCargarPartido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/agregarNotFocus.png"))); // NOI18N
         btnCargarPartido.setText("Cargar");
-        btnCargarPartido.setBorderPainted(false);
-        btnCargarPartido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCargarPartido.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnCargarPartido.setIconTextGap(15);
-        btnCargarPartido.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnCargarPartido.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnCargarPartido.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnCargarPartido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarPartidoActionPerformed(evt);
-            }
-        });
         pnlBotones.add(btnCargarPartido);
-        pnlBotones.add(filler2);
-
-        btnModificarPartido.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnModificarPartido.setForeground(new java.awt.Color(255, 255, 255));
-        btnModificarPartido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/modificarNotfocus.png"))); // NOI18N
-        btnModificarPartido.setText("Modificar");
-        btnModificarPartido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnModificarPartido.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnModificarPartido.setIconTextGap(15);
-        btnModificarPartido.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnModificarPartido.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnModificarPartido.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnModificarPartido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarPartidoActionPerformed(evt);
-            }
-        });
-        pnlBotones.add(btnModificarPartido);
         pnlBotones.add(filler1);
 
-        btnBajaPartido.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnBajaPartido.setForeground(new java.awt.Color(255, 255, 255));
-        btnBajaPartido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/bajaNotfocus.png"))); // NOI18N
+        btnModificarPartido.setText("Modificar");
+        pnlBotones.add(btnModificarPartido);
+        pnlBotones.add(filler2);
+
         btnBajaPartido.setText("Dar de baja");
-        btnBajaPartido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBajaPartido.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBajaPartido.setIconTextGap(15);
-        btnBajaPartido.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnBajaPartido.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnBajaPartido.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnBajaPartido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBajaPartidoActionPerformed(evt);
-            }
-        });
         pnlBotones.add(btnBajaPartido);
 
         lblInformes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblInformes.setForeground(new java.awt.Color(255, 255, 255));
         lblInformes.setText("Informes");
         lblInformes.setToolTipText("");
-        lblInformes.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        lblInformes.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 0, 15, 0));
         lblInformes.setInheritsPopupMenu(false);
         pnlBotones.add(lblInformes);
 
-        btnInfCargos.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnInfCargos.setForeground(new java.awt.Color(255, 255, 255));
-        btnInfCargos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/informeCargosNotFocus.png"))); // NOI18N
-        btnInfCargos.setText("Cargos");
-        btnInfCargos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInfCargos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnInfCargos.setIconTextGap(15);
-        btnInfCargos.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnInfCargos.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnInfCargos.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnInfCargos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInfCargosActionPerformed(evt);
-            }
-        });
+        btnInfCargos.setText("Repartición de cargos");
         pnlBotones.add(btnInfCargos);
-        pnlBotones.add(filler5);
-
-        btnInfDivision.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnInfDivision.setForeground(new java.awt.Color(255, 255, 255));
-        btnInfDivision.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/informeDivisionNotFocus.png"))); // NOI18N
-        btnInfDivision.setText("Division de votos");
-        btnInfDivision.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInfDivision.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnInfDivision.setIconTextGap(15);
-        btnInfDivision.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnInfDivision.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnInfDivision.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnInfDivision.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInfDivisionActionPerformed(evt);
-            }
-        });
-        pnlBotones.add(btnInfDivision);
         pnlBotones.add(filler3);
 
-        btnInfPartidos.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
-        btnInfPartidos.setForeground(new java.awt.Color(255, 255, 255));
-        btnInfPartidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/informePartidosNotfocus.png"))); // NOI18N
-        btnInfPartidos.setText("Partidos");
-        btnInfPartidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInfPartidos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnInfPartidos.setIconTextGap(15);
-        btnInfPartidos.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnInfPartidos.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnInfPartidos.setPreferredSize(new java.awt.Dimension(200, 45));
-        btnInfPartidos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInfPartidosActionPerformed(evt);
-            }
-        });
-        pnlBotones.add(btnInfPartidos);
+        btnInfDivision.setText("División de votos");
+        pnlBotones.add(btnInfDivision);
         pnlBotones.add(filler4);
 
-        btnReset.setFont(new java.awt.Font("Segoe UI Semibold", 0, 15)); // NOI18N
+        btnInfPartidos.setText("Partidos políticos");
+        pnlBotones.add(btnInfPartidos);
+        pnlBotones.add(filler5);
+
+        btnReset.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         btnReset.setForeground(new java.awt.Color(255, 255, 255));
-        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/resetNotFocus.png"))); // NOI18N
+        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/resetNotHover.png"))); // NOI18N
         btnReset.setText("Resetear datos");
-        btnReset.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 18, 0, 0));
+        btnReset.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 0, 0, 0));
         btnReset.setBorderPainted(false);
         btnReset.setContentAreaFilled(false);
-        btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReset.setFocusPainted(false);
         btnReset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnReset.setIconTextGap(15);
-        btnReset.setMaximumSize(new java.awt.Dimension(200, 45));
-        btnReset.setMinimumSize(new java.awt.Dimension(200, 45));
-        btnReset.setPreferredSize(new java.awt.Dimension(200, 45));
+        btnReset.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnReset.setMaximumSize(new java.awt.Dimension(1000, 40));
+        btnReset.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnReset.setOpaque(false);
+        btnReset.setPreferredSize(new java.awt.Dimension(200, 40));
         pnlBotones.add(btnReset);
 
         pnlMenu.add(pnlBotones, java.awt.BorderLayout.CENTER);
@@ -282,8 +293,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pnlContenido.setLayout(new java.awt.BorderLayout());
 
         pnlTopContenido.setBackground(new java.awt.Color(241, 240, 245));
-        pnlTopContenido.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 0, 20));
-        pnlTopContenido.setPreferredSize(new java.awt.Dimension(0, 80));
+        pnlTopContenido.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 50, 0, 50));
+        pnlTopContenido.setPreferredSize(new java.awt.Dimension(0, 115));
         pnlTopContenido.setLayout(new javax.swing.BoxLayout(pnlTopContenido, javax.swing.BoxLayout.Y_AXIS));
 
         lblTituloForm.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -291,24 +302,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         lblTituloForm.setText("Cargar datos de partidos");
         lblTituloForm.setInheritsPopupMenu(false);
         pnlTopContenido.add(lblTituloForm);
-
-        pnlEspacioTitulo.setMinimumSize(new java.awt.Dimension(0, 1));
-        pnlEspacioTitulo.setOpaque(false);
-        pnlEspacioTitulo.setPreferredSize(new java.awt.Dimension(0, 5));
-        pnlEspacioTitulo.setRequestFocusEnabled(false);
-
-        javax.swing.GroupLayout pnlEspacioTituloLayout = new javax.swing.GroupLayout(pnlEspacioTitulo);
-        pnlEspacioTitulo.setLayout(pnlEspacioTituloLayout);
-        pnlEspacioTituloLayout.setHorizontalGroup(
-            pnlEspacioTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1479, Short.MAX_VALUE)
-        );
-        pnlEspacioTituloLayout.setVerticalGroup(
-            pnlEspacioTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1, Short.MAX_VALUE)
-        );
-
-        pnlTopContenido.add(pnlEspacioTitulo);
+        pnlTopContenido.add(EspTituloCont);
 
         sepTitulo.setForeground(new java.awt.Color(233, 233, 240));
         sepTitulo.setPreferredSize(new java.awt.Dimension(180, 2));
@@ -317,7 +311,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pnlContenido.add(pnlTopContenido, java.awt.BorderLayout.NORTH);
 
         pnlFormularios.setBackground(new java.awt.Color(241, 240, 245));
-        pnlFormularios.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        pnlFormularios.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 50, 50, 50));
         pnlFormularios.setToolTipText("");
         pnlFormularios.setLayout(new java.awt.CardLayout());
         pnlContenido.add(pnlFormularios, java.awt.BorderLayout.CENTER);
@@ -327,54 +321,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCargarPartidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarPartidoActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlCargarPartido");
-        lblTituloForm.setText("Cargar Partidos");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnCargarPartidoActionPerformed
-
-    private void btnModificarPartidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPartidoActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlModificarDatos");
-        lblTituloForm.setText("Modificar Partido");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnModificarPartidoActionPerformed
-
-    private void btnBajaPartidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaPartidoActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlBajaPartido");
-        lblTituloForm.setText("Dar de baja partido");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnBajaPartidoActionPerformed
-
-    private void btnInfCargosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfCargosActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlInformeCargos");
-        lblTituloForm.setText("Informe de cargos");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnInfCargosActionPerformed
-
-    private void btnInfDivisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfDivisionActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlInformeDivision");
-        lblTituloForm.setText("Informe de división de votos");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnInfDivisionActionPerformed
-
-    private void btnInfPartidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfPartidosActionPerformed
-        CardLayout card = (CardLayout) pnlFormularios.getLayout();
-        card.show(pnlFormularios, "pnlInformePartidos");
-        lblTituloForm.setText("Informe de partidos");
-        pnlFormularios.revalidate();
-        pnlFormularios.repaint();
-    }//GEN-LAST:event_btnInfPartidosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -412,12 +358,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBajaPartido;
-    private javax.swing.JButton btnCargarPartido;
-    private javax.swing.JButton btnInfCargos;
-    private javax.swing.JButton btnInfDivision;
-    private javax.swing.JButton btnInfPartidos;
-    private javax.swing.JButton btnModificarPartido;
+    private javax.swing.Box.Filler EspTituloCont;
+    private javax.swing.Box.Filler EspTituloMenu;
+    private vista.componentes.BotonMenu btnBajaPartido;
+    private vista.componentes.BotonMenu btnCargarPartido;
+    private vista.componentes.BotonMenu btnInfCargos;
+    private vista.componentes.BotonMenu btnInfDivision;
+    private vista.componentes.BotonMenu btnInfPartidos;
+    private vista.componentes.BotonMenu btnModificarPartido;
     private javax.swing.JButton btnReset;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -430,7 +378,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel lblTituloMenu;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlContenido;
-    private javax.swing.JPanel pnlEspacioTitulo;
     private javax.swing.JPanel pnlFormularios;
     private javax.swing.JPanel pnlMenu;
     private javax.swing.JPanel pnlTop;
